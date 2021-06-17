@@ -32,7 +32,7 @@ function changePlayer(){
 
 // returns the color of the td as either red, blue, or none
 function returnColor(row, col) {
-    if (typeof($('.row'+row+'> td[col='+col+']')[0].classList[1]) == 'undefined'){
+    if (($('.row'+row+'> td[col='+col+']')[0].classList).length == 1){
         return "none"
     }
     else if ($('.row'+row+'> td[col='+col+']')[0].classList[1] == "toggleRed"){
@@ -43,23 +43,40 @@ function returnColor(row, col) {
     }
 }
 
-//check horizontal win
 
-for (y = 7; y < -1; y--){
-    
 
-    for (z = 4; z < -1; z--){
-        dot1 = (returnColor(y, z))
-        dot2 = (returnColor(y-1, z))
-        dot3 = (returnColor(y-2, z))
-        dot4 = (returnColor(y-3, z))
-        if((dot1 == dot2) && (dot1 == dot3) && (dot1 == dot4)){
-            win
+function checkWin(){
+
+    //check horizontal win
+    for (let y = 7; y > 3; y--){
+        
+
+        for (let z = 7; z > 0; z--){
+            dot1 = (returnColor(y, z))
+            dot2 = (returnColor(y-1, z))
+            dot3 = (returnColor(y-2, z))
+            dot4 = (returnColor(y-3, z))
+            if((dot1 == dot2 && dot1 != 'none') && (dot1 == dot3) && (dot1 == dot4)){
+                console.log(player+" wins")
+            }
         }
     }
 
-}
+    // check for a vertical win
+    for (let y = 7; y > 0; y--){
+        
 
+        for (let z = 7; z > 3; z--){
+            dot1 = (returnColor(y, z))
+            dot2 = (returnColor(y, z-1))
+            dot3 = (returnColor(y, z-2))
+            dot4 = (returnColor(y, z-3))
+            if((dot1 == dot2 && dot1 != 'none') && (dot1 == dot3) && (dot1 == dot4)){
+                console.log(player+" wins")
+            }
+        }
+    }
+}
 
 
 
@@ -91,6 +108,7 @@ function whenClicked (column){
             break
         }
     }
+    checkWin()
     changePlayer()
 }
 
